@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "svgr": "svgr ./public/icons --out-dir ./src/assets/icons"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.8.3",
+    "@svgr/cli": "^8.1.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.45",
     "tailwindcss": "^3.4.10",
