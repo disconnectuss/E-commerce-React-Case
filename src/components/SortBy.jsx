@@ -2,7 +2,7 @@ import React from "react";
 
 const SortBy = () => {
   return (
-    <div className="sortBy-box p-5 m-5 shadow-md w-[220px]  max-h-5">
+    <div className="sortBy-box p-5 m-5 shadow-md w-[220px] h-auto">
       <h3 className="text-md mb-2 text-boxTitle">Sort By</h3>
       <div className="flex flex-col space-y-2 bg-white p-2">
         <label className="flex items-center">
