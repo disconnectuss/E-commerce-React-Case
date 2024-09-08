@@ -1,13 +1,13 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // This is for localStorage
-import cartReducer from './slices/cartSlice'; // Replace with your actual slice
-import productReducer from './slices/productSlice'; // Replace with your actual slice
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import cartReducer from "./slices/cartSlice";
+import productReducer from "./slices/productSlice";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['cart'], 
+  whitelist: ["cart"],
 };
 
 const rootReducer = combineReducers({

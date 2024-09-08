@@ -13,7 +13,7 @@ const HomePage = () => {
   const { productList, isLoading, error } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(fetchProducts(1)); // Fetch products when the component mounts
+    dispatch(fetchProducts(1)); 
   }, [dispatch]);
 
   return (
@@ -34,8 +34,8 @@ const HomePage = () => {
         <div className="products w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6 lg:mt-0">
           {isLoading && <p>Loading products...</p>}
           {error && <p>Error loading products: {error}</p>}
-          {productList.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {productList.map((product, index) => (
+            <ProductCard key={product.id || index} product={product} />
           ))}
         </div>
 
