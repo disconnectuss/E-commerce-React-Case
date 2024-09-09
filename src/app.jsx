@@ -9,7 +9,6 @@ import ProductDetail from "./pages/ProductDetail";
 export default function App() {
   return (
     <Provider store={store}>
-      {/* PersistGate delays the rendering of your app until the persisted state has been retrieved */}
       <PersistGate loading={null} persistor={persistor}>
         <Router>
           <Routes>

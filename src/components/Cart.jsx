@@ -1,10 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementQuantity, decrementQuantity, selectCart } from "../redux/slices/cartSlice"
+import {
+  incrementQuantity,
+  decrementQuantity,
+  selectCart,
+} from "../redux/slices/cartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector(selectCart); // Access the cart items from Redux
+  const { items } = useSelector(selectCart);
 
   const handleIncrement = (id) => {
     dispatch(incrementQuantity({ id }));
@@ -14,8 +18,10 @@ const Cart = () => {
     dispatch(decrementQuantity({ id }));
   };
 
-  // Calculate total price
-  const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="bg-white p-4">
@@ -51,11 +57,15 @@ const Cart = () => {
           <p>Your cart is empty.</p>
         )}
       </div>
-      <h2 className="checkout text-boxTitle mt-5 mb-2">Checkout</h2>
+      <h2 className="checkout text-boxTitle mt-5 mb-2 hover:scale-95">
+        Checkout
+      </h2>
       <div className="shadow-md">
         <h2 className="total text-bold text-secondary mb-3">
           Total Price:{" "}
-          <span className="text-primary text-semibold">{totalPrice}₺</span>
+          <span className="text-primary text-semibold">
+            {totalPrice.toLocaleString()} ₺
+          </span>
         </h2>
         <button className="bg-primary text-white text-sm flex items-center rounded-lg px-5 py-2 mb-5">
           Checkout

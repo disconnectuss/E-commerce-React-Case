@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import SortBy from "../components/SortBy";
@@ -6,40 +6,65 @@ import BrandFilter from "../components/BrandFilter";
 import ModelFilter from "../components/ModelFilter";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
-import { fetchProducts } from "../redux/slices/productSlice"; 
+import {
+  fetchProducts,
+  filterProductsByBrand,
+  filterProductsByModel,
+} from "../redux/slices/productSlice";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { productList, isLoading, error } = useSelector((state) => state.products);
+  const { productList, filteredProductList, isLoading, error } = useSelector(
+    (state) => state.products
+  );
+
+  const [selectedModels, setSelectedModels] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchProducts(1)); 
+    dispatch(fetchProducts());
   }, [dispatch]);
+
+  const handleModelFilter = (selectedModels) => {
+    setSelectedModels(selectedModels);
+    dispatch(filterProductsByModel(selectedModels));
+  };
+
+  const handleBrandFilter = (selectedBrands) => {
+    setSelectedBrands(selectedBrands);
+    dispatch(filterProductsByBrand(selectedBrands));
+  };
 
   return (
     <div className="min-h-screen">
       {/* Header */}
       <Header />
 
-      {/* Main content area */}
       <div className="content flex flex-col lg:flex-row py-10 px-8">
-        {/* Left: Filters */}
         <div className="boxes flex flex-row md:flex-col w-full md:w-1/4 gap-5">
           <SortBy />
-          <BrandFilter />
-          <ModelFilter />
+          <BrandFilter
+            productList={productList}
+            onBrandFilter={handleBrandFilter}
+          />
+          <ModelFilter
+            productList={productList}
+            onModelFilter={handleModelFilter}
+          />
         </div>
 
-        {/* Middle: Products */}
-        <div className="products w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6 lg:mt-0">
+        <div className="products w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6 lg:mt-0">
           {isLoading && <p>Loading products...</p>}
           {error && <p>Error loading products: {error}</p>}
-          {productList.map((product, index) => (
-            <ProductCard key={product.id || index} product={product} />
-          ))}
+          {filteredProductList.length > 0 ? (
+            filteredProductList.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          ) : (
+            <p>No products available</p>
+          )}
         </div>
 
-        {/* Right: Cart */}
         <div className="cart w-full lg:w-1/4 mt-6 lg:mt-0 pl-0 lg:pl-6">
           <Cart />
         </div>

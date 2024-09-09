@@ -1,18 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cartSlice";
 
 const ProductCard = ({ product }) => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleNavigateToDetail = () => {
-    navigate(`/product/${product.id}`); // Navigates to ProductDetail page with the product ID
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+
+    console.log("added");
   };
-
   return (
-    <div
-      className="bg-white p-4 m-5 rounded-lg shadow-md w-[220px] cursor-pointer"
-      onClick={handleNavigateToDetail} // Navigate to ProductDetail on click
-    >
+    <div className="bg-white p-4 m-5 rounded-lg shadow-md w-[220px]">
       <div className="h-48 bg-gray-300 mb-4">
         {product.image ? (
           <img
@@ -26,7 +25,15 @@ const ProductCard = ({ product }) => {
       </div>
 
       <div className="text-primary mb-4">{product.price}₺</div>
+
       <div className="text-black mb-2">{product.name}</div>
+
+      <button
+        className="text-white px-4 py-2 rounded-lg bg-primary hover:scale-95"
+        onClick={handleAddToCart}
+      >
+        Add to Cart
+      </button>
     </div>
   );
 };
