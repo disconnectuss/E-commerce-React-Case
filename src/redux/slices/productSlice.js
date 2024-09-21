@@ -36,7 +36,6 @@ const productsSlice = createSlice({
           ? state.filteredProductList
           : state.productList;
 
-      // Sort by the selected option
       switch (sortBy) {
         case "new-to-old":
           listToSort.sort(
@@ -61,7 +60,6 @@ const productsSlice = createSlice({
     },
     filterProductsByModel: (state, action) => {
       const selectedModels = action.payload;
-
       if (selectedModels.length > 0) {
         state.filteredProductList = state.productList.filter((product) =>
           selectedModels.includes(product.model)
@@ -72,7 +70,6 @@ const productsSlice = createSlice({
     },
     filterProductsByBrand: (state, action) => {
       const selectedBrands = action.payload;
-
       if (selectedBrands.length > 0) {
         state.filteredProductList =
           state.filteredProductList.length > 0
@@ -83,6 +80,18 @@ const productsSlice = createSlice({
                 selectedBrands.includes(product.brand)
               );
       } else if (state.filteredProductList.length === 0) {
+        state.filteredProductList = state.productList;
+      }
+    },
+    filterProductsBySearch: (state, action) => {
+      const searchTerm = action.payload.toLowerCase();
+      if (searchTerm) {
+        state.filteredProductList = state.productList.filter(
+          (product) =>
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm)
+        );
+      } else {
         state.filteredProductList = state.productList;
       }
     },
@@ -110,6 +119,7 @@ export const {
   sortProducts,
   filterProductsByModel,
   filterProductsByBrand,
+  filterProductsBySearch, // New action to handle search
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

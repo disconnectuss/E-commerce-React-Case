@@ -18,12 +18,31 @@ const HomePage = () => {
     (state) => state.products
   );
 
+  const [searchQuery, setSearchQuery] = useState(""); 
   const [selectedModels, setSelectedModels] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const lowerCaseQuery = query.toLowerCase();
+    dispatch(
+      filterProductsByModel(
+        selectedModels.length
+          ? productList.filter(
+              (product) =>
+                product.name.toLowerCase().includes(lowerCaseQuery) &&
+                selectedModels.includes(product.model)
+            )
+          : productList.filter((product) =>
+              product.name.toLowerCase().includes(lowerCaseQuery)
+            )
+      )
+    );
+  };
 
   const handleModelFilter = (selectedModels) => {
     setSelectedModels(selectedModels);
@@ -37,9 +56,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <Header />
-
+      <Header onSearch={handleSearch} /> 
       <div className="content flex flex-col lg:flex-row py-10 px-8">
         <div className="boxes flex flex-row md:flex-col w-full md:w-1/4 gap-5">
           <SortBy />
